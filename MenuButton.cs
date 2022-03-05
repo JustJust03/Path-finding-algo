@@ -22,7 +22,7 @@ namespace PathFindingAlgo
         const int MaxUpPixels = 10;
         int ImageDeltaY = 0;
 
-        readonly Form Display;
+        readonly MenuBar Bar;
         readonly Brush ButtonBrush;
         Point ButtonPoint;
         Size ButtonSize;
@@ -34,7 +34,7 @@ namespace PathFindingAlgo
         Point TextPoint;
         Size TextSize;
 
-        protected Image MenuBarIcon;
+        protected Image MenuButtonIcon;
 
         readonly int CornerOffset;
         const int ClickOffset = 5;
@@ -48,14 +48,14 @@ namespace PathFindingAlgo
         /// <param name="po">Top left point from where the button is drawn</param>
         /// <param name="si">The width and height of the button</param>
         /// <param name="ty">Button Types: "Rounded Box"</param>
-        /// <param name="fo">The form to be drawn on</param>
+        /// <param name="me">The form to be drawn on</param>
         /// <param name="bt">A string to be displayed under the button, only visible on hover.</param>
-        public MenuButton(Brush br, Point po, Size si, string ty, Form fo, string bt)
+        public MenuButton(Brush br, Point po, Size si, string ty, MenuBar me, string bt)
         {
             ButtonVisability = true;
             ActiveAnimation = false;
 
-            Display = fo;
+            Bar = me;
             ButtonBrush = br;
             ButtonType = ty;
             ButtonPoint = po;
@@ -93,9 +93,9 @@ namespace PathFindingAlgo
             else if (ButtonVisability)
                 g.FillRectangle(ButtonBrush, ButtonRect);
 
-            if (MenuBarIcon != null)
+            if (MenuButtonIcon != null)
             {
-                g.DrawImage(MenuBarIcon, ButtonPoint.X + Convert.ToInt32(ButtonSize.Width * 0.1),
+                g.DrawImage(MenuButtonIcon, ButtonPoint.X + Convert.ToInt32(ButtonSize.Width * 0.1),
                                          ButtonPoint.Y + ImageDeltaY + Convert.ToInt32(ButtonSize.Height * 0.1),
                                          Convert.ToInt32(ButtonSize.Width * 0.8),
                                          Convert.ToInt32(ButtonSize.Height * 0.8));
@@ -107,12 +107,12 @@ namespace PathFindingAlgo
         /// </summary>
         public void BHover(Point MousePos, string obj)
         {
-            if (HitBox.Contains(MousePos) && !ActiveAnimation && obj == "Main Display")
+            if (HitBox.Contains(MousePos) && !ActiveAnimation && obj == "MenuBar")
             {
                 Thread animation = new Thread(UpDownAnimation);
                 animation.Start();
             }
-            else if (ActiveAnimation && (!HitBox.Contains(MousePos) || obj != "Main Display"))
+            else if (ActiveAnimation && (!HitBox.Contains(MousePos) || obj != "MenuBar"))
             {
                 MoveDown = true;
                 MoveUp = false;
@@ -141,7 +141,7 @@ namespace PathFindingAlgo
             {
                 ButtonRect.Y -= 3;
                 ImageDeltaY -= 3;
-                Display.Invalidate();
+                Bar.Invalidate();
                 Thread.Sleep(20);
                 if(ButtonRect.Y <= -MaxUpPixels) MoveUp = false;
             }
@@ -150,7 +150,7 @@ namespace PathFindingAlgo
             {
                 ButtonRect.Y += 3;
                 ImageDeltaY += 3;
-                Display.Invalidate();
+                Bar.Invalidate();
                 Thread.Sleep(20);
                 if(ButtonRect.Y == ButtonPoint.Y)
                 {
@@ -172,10 +172,10 @@ namespace PathFindingAlgo
     public class SaveButton: MenuButton
     {
         Board ABoard;
-        public SaveButton(Brush br, Point po, Size si, string ty, Form fo, Board ab) : base(br, po, si, ty, fo, "Save")
+        public SaveButton(Brush br, Point po, Size si, string ty, MenuBar me, Board ab) : base(br, po, si, ty, me, "Save")
         {
             ABoard = ab;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Save.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Save.png");
         }
 
         public override void ClickEvent()
@@ -201,11 +201,10 @@ namespace PathFindingAlgo
     {
         Board ABoard;
         Form Display;
-        public LoadButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Load-In")
+        public LoadButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Load-In")
         {
             ABoard = aBoard;
-            Display = fo;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Load.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Load.png");
         }
 
         public override void ClickEvent()
@@ -216,7 +215,6 @@ namespace PathFindingAlgo
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(dialog.FileName);
-                Display.Text = dialog.FileName;
                 ABoard.Load_board(sr);
                 sr.Close();
             }
@@ -228,10 +226,10 @@ namespace PathFindingAlgo
     public class GridButton: MenuButton
     {
         Board ABoard;
-        public GridButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Grid")
+        public GridButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Grid")
         {
             ABoard = aBoard;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Grid.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Grid.png");
         }
 
         public override void ClickEvent()
@@ -245,10 +243,10 @@ namespace PathFindingAlgo
     public class AstarButton: MenuButton
     {
         Board ABoard;
-        public AstarButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Run")
+        public AstarButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Run")
         {
             ABoard = aBoard;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Path.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Path.png");
         }
 
         public override void ClickEvent()
@@ -262,10 +260,10 @@ namespace PathFindingAlgo
     public class ResetButton: MenuButton
     {
         Board ABoard;
-        public ResetButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Reset")
+        public ResetButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Reset")
         {
             ABoard = aBoard;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Reset.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Reset.png");
         }
 
         public override void ClickEvent()
@@ -279,10 +277,10 @@ namespace PathFindingAlgo
     public class RandomizeButton: MenuButton
     {
         Board ABoard;
-        public RandomizeButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Random")
+        public RandomizeButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Random")
         {
             ABoard = aBoard;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Randomize.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Randomize.png");
         }
 
         public override void ClickEvent()
@@ -296,10 +294,10 @@ namespace PathFindingAlgo
     public class EnlargeBoardButton: MenuButton
     {
         Board ABoard;
-        public EnlargeBoardButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Enlarge")
+        public EnlargeBoardButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Enlarge")
         {
             ABoard = aBoard;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Enlarge.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Enlarge.png");
         }
 
         public override void ClickEvent()
@@ -313,10 +311,10 @@ namespace PathFindingAlgo
     public class ShrinkBoardButton: MenuButton
     {
         Board ABoard;
-        public ShrinkBoardButton(Brush br, Point po, Size si, string ty, Form fo, Board aBoard) : base(br, po, si, ty, fo, "Shrink")
+        public ShrinkBoardButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Shrink")
         {
             ABoard = aBoard;
-            MenuBarIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Shrink.png");
+            MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Shrink.png");
         }
 
         public override void ClickEvent()

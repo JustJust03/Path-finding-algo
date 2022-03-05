@@ -49,6 +49,9 @@
     <Compile Include="BoardComponents\Board.cs" />
     <Compile Include="BoardComponents\BoardCell.cs" />
     <Compile Include="BoardComponents\Astar.cs" />
+    <Compile Include="Menu\InGameMenuBar\MenuBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SmoothPanel.cs">
       <SubType>Component</SubType>
     </Compile>
