@@ -46,7 +46,6 @@ namespace PathFindingAlgo
                 if (Circle)
                     g.FillEllipse(B, Rectangle.Inflate(HitBox, -VisualCircleShrink, -VisualCircleShrink));
                 else
-                    //g.FillRectangle(B, Rectangle.Inflate(HitBox, -VisualCircleShrink, -VisualCircleShrink));
                     g.FillEllipse(B, Rectangle.Inflate(HitBox, -VisualCircleShrink, -VisualCircleShrink));
         }
 
@@ -121,11 +120,11 @@ namespace PathFindingAlgo
         /// <returns>the Brush with the right color</returns>
         private Brush GetBrushType()
         {
-                 if (CellType == 1) return Brushes.Black;           //Solid cell
-            else if (CellType == 2) return Brushes.Green;           //Begin cell
-            else if (CellType == 3) return Brushes.Red;             //End cell
-            else if (CellType == 4) return Brushes.Purple;          //Path trail
-            else if (CellType == 5) return Brushes.Pink;            //Temporary path
+                 if (CellType == 1) return Brushes.DarkSlateGray;   //Solid cell
+            else if (CellType == 2) return Brushes.DarkOrange;            //Begin cell
+            else if (CellType == 3) return Brushes.DarkOrange;             //End cell
+            else if (CellType == 4) return Brushes.DeepPink;          //Path trail
+            else if (CellType == 5) return Brushes.DeepPink;            //Temporary path
             else                    return Brushes.LightSkyBlue;    //Error color (Should never be used)
         }
     }

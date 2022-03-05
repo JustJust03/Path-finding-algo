@@ -49,14 +49,18 @@
     <Compile Include="BoardComponents\Board.cs" />
     <Compile Include="BoardComponents\BoardCell.cs" />
     <Compile Include="BoardComponents\Astar.cs" />
+    <Compile Include="Visuals.cs" />
     <Compile Include="Menu\InGameMenuBar\MenuBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Menu\PreGameMenu.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SmoothPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BoardComponents\Dijkstra.cs" />
-    <Compile Include="MenuButton.cs" />
+    <Compile Include="Menu\InGameMenuBar\MenuButton.cs" />
     <Compile Include="MainDisplay.cs">
       <SubType>Form</SubType>
     </Compile>

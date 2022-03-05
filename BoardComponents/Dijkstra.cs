@@ -18,7 +18,6 @@ namespace PathFindingAlgo
         /// </summary>
         protected readonly List<BoardCell> CellList;
         readonly List<BoardCell> FinishedCellList;
-        private bool Visualize;
         protected bool RunningAlgo;
         protected bool FoundEnd;
 
@@ -41,10 +40,9 @@ namespace PathFindingAlgo
         ///     or the CellList got exhausted and there was no path to the EndCell.
         /// 3 Then Draws the shortest path from the BeginCell to the EndCell.
         /// </summary>
-        public void Run_algorithm(bool visualize)
+        public void Run_algorithm()
         {
             DBoard.ClearBoard();
-            Visualize = visualize;
             RunningAlgo = true;
 
             //1
@@ -68,9 +66,9 @@ namespace PathFindingAlgo
             {
                 cell.ChangeTypeTo(4);
             }
-
             if (!FoundEnd)  DBoard.ClearBoard();
 
+            DBoard.BoardPanel.Invalidate();
             double pathlength = CalculatePathLenght(DBoard.EndCell.Path);
             int s = searches;
         }
@@ -98,7 +96,7 @@ namespace PathFindingAlgo
                     NewPath.Add(OriginalCell);
                     cell.Path = NewPath;
                     if (!FinishedCellList.Contains(cell)) CellList.Add(cell);
-                    if (Visualize)  Visualize_Algo(NewPath);
+                    if (DBoard.VisualizeAlgo)  Visualize_Algo(NewPath);
                     if (cell == DBoard.EndCell) FinishAlgo();
                 }
             }
@@ -113,7 +111,7 @@ namespace PathFindingAlgo
             List<BoardCell> NewPath = new List<BoardCell>(DBoard.EndCell.Path);
             NewPath.Add(DBoard.EndCell);
             DBoard.EndCell.Path = NewPath;
-            if (Visualize)  DBoard.ClearBoard();
+            if (DBoard.VisualizeAlgo)  DBoard.ClearBoard();
             RunningAlgo = false;
             FoundEnd = true;
         }

@@ -38,16 +38,17 @@ namespace PathFindingAlgo
         {
             Size button_size = new Size(80, 80);
             string type = "Rounded Box";
+            Brush b = new SolidBrush(Color.LightSteelBlue);
             ButtonList = new List<MenuButton>
             {
-                new SaveButton(Brushes.LightGray, new Point(10, 10), button_size, type, this, ABoard),
-                new LoadButton(Brushes.LightGreen, new Point(110, 10), button_size, type, this, ABoard),
-                new GridButton(Brushes.LightBlue, new Point(210, 10), button_size, type, this, ABoard),
-                new AstarButton(Brushes.MediumPurple, new Point(310, 10), button_size, type, this, ABoard),
-                new ResetButton(Brushes.LightSeaGreen, new Point(410, 10), button_size, type, this, ABoard),
-                new RandomizeButton(Brushes.LightSalmon, new Point(510, 10), button_size, type, this, ABoard),
-                new EnlargeBoardButton(Brushes.LightSteelBlue, new Point(610, 10), button_size, type, this, ABoard),
-                new ShrinkBoardButton(Brushes.LightSlateGray, new Point(710, 10), button_size, type, this, ABoard)
+                new SaveButton(b, new Point(10, 10), button_size, type, this, ABoard),
+                new LoadButton(b, new Point(110, 10), button_size, type, this, ABoard),
+                new GridButton(b, new Point(210, 10), button_size, type, this, ABoard),
+                new RunButton(b, new Point(310, 10), button_size, type, this, ABoard),
+                new ResetButton(b, new Point(410, 10), button_size, type, this, ABoard),
+                new RandomizeButton(b, new Point(510, 10), button_size, type, this, ABoard),
+                new EnlargeBoardButton(b, new Point(610, 10), button_size, type, this, ABoard),
+                new ShrinkBoardButton(b, new Point(710, 10), button_size, type, this, ABoard)
             };
         }
 
@@ -77,7 +78,6 @@ namespace PathFindingAlgo
             {
                 mb.BHover(new Point(mea.X, mea.Y), obj.ToString());
             }
-            this.Invalidate();
         }
 
         /// <summary>

@@ -81,14 +81,7 @@ namespace PathFindingAlgo
             g.DrawString(ButtonText, TextFont, TextBrush, TextPoint);
             if (ButtonVisability && ButtonType == "Rounded Box")
             {
-                g.FillRectangle(ButtonBrush, new Rectangle(new Point(ButtonRect.X + CornerOffset, ButtonRect.Y), new Size(ButtonRect.Width - CornerOffset * 2, ButtonRect.Height)));
-                g.FillRectangle(ButtonBrush, new Rectangle(new Point(ButtonRect.X, ButtonRect.Y + CornerOffset), new Size(ButtonRect.Width, ButtonRect.Height - CornerOffset * 2)));
-
-                Size CornerSize = new Size(CornerOffset * 2, CornerOffset * 2);
-                g.FillEllipse(ButtonBrush, new Rectangle(new Point(ButtonRect.X, ButtonRect.Y), CornerSize));
-                g.FillEllipse(ButtonBrush, new Rectangle(new Point(ButtonRect.X + ButtonRect.Width - CornerOffset * 2, ButtonRect.Y), CornerSize));
-                g.FillEllipse(ButtonBrush, new Rectangle(new Point(ButtonRect.X + ButtonRect.Width - CornerOffset * 2 , ButtonRect.Y + ButtonRect.Height - CornerOffset * 2), CornerSize));
-                g.FillEllipse(ButtonBrush, new Rectangle(new Point(ButtonRect.X, ButtonRect.Y + ButtonRect.Height - CornerOffset * 2), CornerSize));
+                Visuals.FillRoundedBox(ButtonRect, ButtonBrush, g, CornerOffset);
             }
             else if (ButtonVisability)
                 g.FillRectangle(ButtonBrush, ButtonRect);
@@ -200,7 +193,6 @@ namespace PathFindingAlgo
     public class LoadButton: MenuButton
     {
         Board ABoard;
-        Form Display;
         public LoadButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Load-In")
         {
             ABoard = aBoard;
@@ -240,10 +232,10 @@ namespace PathFindingAlgo
     /// <summary>
     /// Runs the AStar algorithm.
     /// </summary>
-    public class AstarButton: MenuButton
+    public class RunButton: MenuButton
     {
         Board ABoard;
-        public AstarButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Run")
+        public RunButton(Brush br, Point po, Size si, string ty, MenuBar me, Board aBoard) : base(br, po, si, ty, me, "Run")
         {
             ABoard = aBoard;
             MenuButtonIcon = Image.FromFile(MainDisplay.rootfolder + @"Icons\Path.png");
@@ -251,7 +243,8 @@ namespace PathFindingAlgo
 
         public override void ClickEvent()
         {
-            ABoard.RunAstarAlgo();
+            if (ABoard.UseAstarAlgo) ABoard.RunAstarAlgo();
+            else                     ABoard.RunDijkstraAlgo();
         }
     }
     /// <summary>

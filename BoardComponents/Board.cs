@@ -18,6 +18,8 @@ namespace PathFindingAlgo
         public Point BeginPoint;
         public BoardCell EndCell;
         public Point EndPoint;
+        public bool VisualizeAlgo;
+        public bool UseAstarAlgo;
 
         private const int EnlargeShrinkScale = 2;
         private const int RandomRemoveInt = 50;
@@ -288,6 +290,7 @@ namespace PathFindingAlgo
             Rectangle boardsize = new Rectangle(new Point(int.Parse(parts[2]), int.Parse(parts[3])),
                                                 new Size(int.Parse(parts[4]), int.Parse(parts[5])));
             Init(int.Parse(parts[0]), int.Parse(parts[1]), boardsize, BoardPanel, false, Grid);
+            BoardPanel.Invalidate();
         }
 
         /// <summary>
@@ -296,8 +299,8 @@ namespace PathFindingAlgo
         public void RunDijkstraAlgo()
         {
             DijkstraAlgo = new Dijkstra(this);
-            DijkstraAlgo.Run_algorithm(false);
-        }
+            DijkstraAlgo.Run_algorithm();
+        } 
 
         /// <summary>
         /// Creates a AstarAlgo instance and then runs the Astar algorithm
@@ -305,7 +308,7 @@ namespace PathFindingAlgo
         public void RunAstarAlgo()
         {
             AstarAlgo = new Astar(this);
-            AstarAlgo.Run_algorithm(false);
+            AstarAlgo.Run_algorithm();
         }
     }
 }
