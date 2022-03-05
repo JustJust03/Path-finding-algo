@@ -123,6 +123,7 @@ namespace PathFindingAlgo
                     }
                 }
             }
+            BoardPanel.Invalidate();
         }
 
         /// <summary>
@@ -140,6 +141,16 @@ namespace PathFindingAlgo
                     else if (Cell.CellType > 3) Cell.ChangeTypeTo(0);
                 }
             }
+            BoardPanel.Invalidate();
+        }
+
+        /// <summary>
+        /// Toggles the grid and invalidates the board.
+        /// </summary>
+        public void ToggleGrid()
+        {
+            Grid = !Grid;
+            BoardPanel.Invalidate();
         }
 
         /// <summary>

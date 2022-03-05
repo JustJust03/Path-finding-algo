@@ -51,14 +51,14 @@ namespace PathFindingAlgo
             string type = "Rounded Box";
             ButtonList = new List<MenuButton>
             {
-                new SaveButton(Brushes.LightGray, new Point(10, 10), button_size, type, this, BoardPanel, ABoard),
-                new LoadButton(Brushes.LightGreen, new Point(110, 10), button_size, type, this, BoardPanel, ABoard),
-                new GridButton(Brushes.LightBlue, new Point(210, 10), button_size, type, this, BoardPanel, ABoard),
-                new DijkstraButton(Brushes.MediumPurple, new Point(310, 10), button_size, type, this, BoardPanel, ABoard),
-                new ResetButton(Brushes.LightSeaGreen, new Point(410, 10), button_size, type, this, BoardPanel, ABoard),
-                new RandomizeButton(Brushes.LightSalmon, new Point(510, 10), button_size, type, this, BoardPanel, ABoard),
-                new EnlargeBoardButton(Brushes.LightSteelBlue, new Point(610, 10), button_size, type, this, BoardPanel, ABoard),
-                new ShrinkBoardButton(Brushes.LightSlateGray, new Point(710, 10), button_size, type, this, BoardPanel, ABoard)
+                new SaveButton(Brushes.LightGray, new Point(10, 10), button_size, type, this, ABoard),
+                new LoadButton(Brushes.LightGreen, new Point(110, 10), button_size, type, this, ABoard),
+                new GridButton(Brushes.LightBlue, new Point(210, 10), button_size, type, this, ABoard),
+                new AstarButton(Brushes.MediumPurple, new Point(310, 10), button_size, type, this, ABoard),
+                new ResetButton(Brushes.LightSeaGreen, new Point(410, 10), button_size, type, this, ABoard),
+                new RandomizeButton(Brushes.LightSalmon, new Point(510, 10), button_size, type, this, ABoard),
+                new EnlargeBoardButton(Brushes.LightSteelBlue, new Point(610, 10), button_size, type, this, ABoard),
+                new ShrinkBoardButton(Brushes.LightSlateGray, new Point(710, 10), button_size, type, this, ABoard)
             };
 
             this.Paint += PaintMenuBarButtons;
