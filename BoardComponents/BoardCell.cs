@@ -120,7 +120,7 @@ namespace PathFindingAlgo
         /// <returns>the Brush with the right color</returns>
         private Brush GetBrushType()
         {
-                 if (CellType == 1) return Brushes.DarkSlateGray;   //Solid cell
+                 if (CellType == 1) return Brushes.White;   //Solid cell
             else if (CellType == 2) return Brushes.DarkOrange;            //Begin cell
             else if (CellType == 3) return Brushes.DarkOrange;             //End cell
             else if (CellType == 4) return Brushes.DeepPink;          //Path trail

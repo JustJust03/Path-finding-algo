@@ -30,7 +30,7 @@ namespace PathFindingAlgo
 
         readonly string ButtonText;
         readonly Font TextFont = new Font("Times New Roman", 14, FontStyle.Bold);
-        readonly Brush TextBrush = new SolidBrush(Color.Black);
+        readonly Brush TextBrush = new SolidBrush(Color.White);
         Point TextPoint;
         Size TextSize;
 

@@ -68,7 +68,7 @@ namespace PathFindingAlgo
             }
             if (!FoundEnd)  DBoard.ClearBoard();
 
-            DBoard.BoardPanel.Invalidate();
+            DBoard.Invalidate();
             double pathlength = CalculatePathLenght(DBoard.EndCell.Path);
             int s = searches;
         }
@@ -177,7 +177,7 @@ namespace PathFindingAlgo
             foreach (BoardCell cell in Path)
                 cell.ChangeTypeTo(5);
 
-            DBoard.BoardPanel.Invalidate();
+            DBoard.Invalidate();
             Application.DoEvents();
         }
 

@@ -7,9 +7,9 @@ using System.IO;
 
 namespace PathFindingAlgo
 {
-    public class Board
+    public class Board : SmoothPanel
     {
-        public int Rows; public int Cols; public Panel BoardPanel; 
+        public int Rows; public int Cols; 
         public List<List<BoardCell>> BoardCells; public bool Grid;
         public Dijkstra DijkstraAlgo;
         public Astar AstarAlgo;
@@ -35,11 +35,10 @@ namespace PathFindingAlgo
         /// <param name="boardPanel">The panel which the board is displayed on</param>
         /// <param name="randomizeBoard">true if sender = constructor, false if sender = load_board</param>
         /// <param name="grid">Visualize the grid default to false</param>
-        private void Init(int rows, int cols, Rectangle boardSize, Panel boardPanel, bool randomizeBoard, bool grid)
+        private void Init(int rows, int cols, Rectangle boardSize, bool randomizeBoard, bool grid)
         {
-            BoardPanel = boardPanel;
-            BoardPanel.Location = boardSize.Location;
-            BoardPanel.Size = boardSize.Size;
+            this.Location = boardSize.Location;
+            this.Size = boardSize.Size;
             Rows = rows;
             Cols = cols;
             Grid = grid;
@@ -48,17 +47,17 @@ namespace PathFindingAlgo
             if (randomizeBoard)
             {
                 RandomizeBoard();
-                BoardPanel.Paint += Draw_Board;
-                BoardPanel.MouseClick += Board_MC;
+                this.Paint += Draw_Board;
+                this.MouseClick += Board_MC;
             }
         }
 
         /// <summary>
         /// Constructor goes to Init()
         /// </summary>
-        public Board(int rows, int cols, Rectangle boardSize, Panel boardPanel)
+        public Board(int rows, int cols, Rectangle boardSize, bool randomizeboard)
         {
-            Init(rows, cols, boardSize, boardPanel, true, false);
+            Init(rows, cols, boardSize, randomizeboard, false);
         }
 
         /// <summary>
@@ -90,8 +89,8 @@ namespace PathFindingAlgo
 
                     BoardCell Cell = new BoardCell(c, r,
                                                    new Rectangle(
-                                                   new Point(c * BoardPanel.Width / Cols, r * BoardPanel.Height / Rows),
-                                                   new Size(BoardPanel.Width / Cols, BoardPanel.Height / Rows)),
+                                                   new Point(c * this.Width / Cols, r * this.Height / Rows),
+                                                   new Size(this.Width / Cols, this.Height / Rows)),
                                                    cellType, this);
                     if (c == BeginPoint.X && r == BeginPoint.Y)     BeginCell = Cell;
                     else if (c == EndPoint.X && r == EndPoint.Y)    EndCell = Cell;
@@ -125,7 +124,7 @@ namespace PathFindingAlgo
                     }
                 }
             }
-            BoardPanel.Invalidate();
+            this.Invalidate();
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace PathFindingAlgo
                     else if (Cell.CellType > 3) Cell.ChangeTypeTo(0);
                 }
             }
-            BoardPanel.Invalidate();
+            this.Invalidate();
         }
 
         /// <summary>
@@ -152,7 +151,7 @@ namespace PathFindingAlgo
         public void ToggleGrid()
         {
             Grid = !Grid;
-            BoardPanel.Invalidate();
+            this.Invalidate();
         }
 
         /// <summary>
@@ -191,16 +190,16 @@ namespace PathFindingAlgo
             {
                 for (int r = 0; r < Rows; r++)
                 {
-                    g.FillRectangle(Brushes.Black, new Rectangle(new Point(0, r * BoardPanel.Height / Rows), new Size(BoardPanel.Width, 1)));
+                    g.FillRectangle(Brushes.White, new Rectangle(new Point(0, r * this.Height / Rows), new Size(this.Width, 1)));
 
                 }
                 for (int c = 0; c < Cols; c++)
                 {
-                    g.FillRectangle(Brushes.Black, new Rectangle(new Point(c * BoardPanel.Width / Cols), new Size(1, BoardPanel.Height)));
+                    g.FillRectangle(Brushes.White, new Rectangle(new Point(c * this.Width / Cols), new Size(1, this.Height)));
 
                 }
-                g.FillRectangle(Brushes.Black, new Rectangle(new Point(0, BoardPanel.Height - 1), new Size(BoardPanel.Width, 1)));
-                g.FillRectangle(Brushes.Black, new Rectangle(new Point(BoardPanel.Width - 1, 0), new Size(1, BoardPanel.Height)));
+                g.FillRectangle(Brushes.White, new Rectangle(new Point(0, this.Height - 1), new Size(this.Width, 1)));
+                g.FillRectangle(Brushes.White, new Rectangle(new Point(this.Width - 1, 0), new Size(1, this.Height)));
             }
 
             //2
@@ -226,7 +225,7 @@ namespace PathFindingAlgo
                     Cell.HitCell(mea);
                 }
             }
-            BoardPanel.Invalidate();
+            this.Invalidate();
         }
 
 
@@ -241,8 +240,8 @@ namespace PathFindingAlgo
         {
             string csv = "";
             csv += Rows.ToString() + "," + Cols.ToString() + "," +
-                   BoardPanel.Location.X.ToString() + "," + BoardPanel.Location.Y.ToString() + "," +
-                   BoardPanel.Width.ToString() + "," + BoardPanel.Height.ToString() + "\n"; 
+                   this.Location.X.ToString() + "," + this.Location.Y.ToString() + "," +
+                   this.Width.ToString() + "," + this.Height.ToString() + "\n"; 
             foreach(List<BoardCell> Sublist in BoardCells)
             {
                 foreach(BoardCell Cell in Sublist)
@@ -289,8 +288,8 @@ namespace PathFindingAlgo
 
             Rectangle boardsize = new Rectangle(new Point(int.Parse(parts[2]), int.Parse(parts[3])),
                                                 new Size(int.Parse(parts[4]), int.Parse(parts[5])));
-            Init(int.Parse(parts[0]), int.Parse(parts[1]), boardsize, BoardPanel, false, Grid);
-            BoardPanel.Invalidate();
+            Init(int.Parse(parts[0]), int.Parse(parts[1]), boardsize, false, Grid);
+            this.Invalidate();
         }
 
         /// <summary>

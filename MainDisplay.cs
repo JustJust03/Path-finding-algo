@@ -12,10 +12,12 @@ namespace PathFindingAlgo
     public partial class MainDisplay : Form
     {
         public const string rootfolder = @"Z:\justh\C#\PathFindingAlgo\";
-        Panel BoardPanel;
-        MenuBar Bar;
+        public MenuBar Bar;
         Board ABoard;
-        PreGameMenu PGM;
+        public PreGameMenu PGM;
+        public string ApplicationPhase;
+
+        MenuTransition MTrans;
 
         //Values set in the PreGameMenu.
         public bool Visualize;
@@ -35,31 +37,55 @@ namespace PathFindingAlgo
             UpdateStyles();
 
             this.Size = new Size(820, 950);
+            this.BackColor = Color.DarkSlateGray;
 
             PGM = new PreGameMenu(new Rectangle(0, 0, this.Width, this.Height), this);
             InitBoard();
             InitMenuBar();
 
-            BoardPanel.MouseMove += Bar.MMove;
+            ABoard.MouseMove += Bar.MMove;
             this.KeyDown += KDown;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            SwitchToStage("PreGame");
+
+            MTrans = new MenuTransition(this);
+            Controls.Add(PGM);
+            ApplicationPhase = "PreGame";
         }
 
         public void SwitchToStage(string Stage)
         {
             if (Stage == "PreGame")
             {
+                ApplicationPhase = "PreGame";
                 Controls.Clear();
                 Controls.Add(PGM);
+                Controls.Add(Bar);
+                Controls.Add(ABoard);
+                MTrans.PreGameIngame(false);
+
+                if (ApplicationPhase == "PreGame")
+                {
+                    Controls.Clear();
+                    Controls.Add(PGM);
+                }
             }
             else if(Stage == "InGame")
             {
+                ApplicationPhase = "InGame";
                 Controls.Clear();
+                Controls.Add(PGM);
                 Controls.Add(Bar);
-                Controls.Add(BoardPanel);
-                ABoard.VisualizeAlgo = Visualize;
-                ABoard.UseAstarAlgo = UseAstar;
+                Controls.Add(ABoard);
+                MTrans.PreGameIngame(true);
+
+                if (ApplicationPhase == "InGame")
+                {
+                    Controls.Clear();
+                    Controls.Add(Bar);
+                    Controls.Add(ABoard);
+                    ABoard.VisualizeAlgo = Visualize;
+                    ABoard.UseAstarAlgo = UseAstar;
+                }
             }
         }
 
@@ -74,9 +100,10 @@ namespace PathFindingAlgo
         /// </summary>
         private void InitBoard()
         {
-            BoardPanel = new SmoothPanel();
-            ABoard = new Board(32, 32, new Rectangle(2, 102, 800, 800), BoardPanel);
-            ABoard.VisualizeAlgo = Visualize;
+            ABoard = new Board(32, 32, new Rectangle(2, 102, 800, 800), true)
+            {
+                VisualizeAlgo = Visualize
+            };
 
             //StreamReader sr = new StreamReader("C:\\Users\\justh\\Documents\\FixAstarBoard.csv");
             //ABoard.Load_board(sr);
@@ -85,19 +112,13 @@ namespace PathFindingAlgo
 
         private void KDown(object obj, KeyEventArgs kea)
         {
-            if (kea.KeyCode == Keys.Escape) SwitchToStage("PreGame");
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // MainDisplay
-            // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "MainDisplay";
-            this.Load += new System.EventHandler(this.MainDisplay_Load);
-            this.ResumeLayout(false);
+            if (kea.KeyCode == Keys.Escape)
+            {
+                if (ApplicationPhase == "InGame")
+                    SwitchToStage("PreGame");
+                else if (ApplicationPhase == "PreGame")
+                    SwitchToStage("InGame");
+            }
         }
 
         private void MainDisplay_Load(object sender, System.EventArgs e)

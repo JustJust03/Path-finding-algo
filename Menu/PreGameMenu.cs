@@ -5,7 +5,7 @@ using System.IO;
 
 namespace PathFindingAlgo
 {
-    internal class PreGameMenu: SmoothPanel
+    public class PreGameMenu: SmoothPanel
     {
         MainDisplay Display;
         readonly Brush LSBBrush = new SolidBrush(Color.LightSteelBlue);
@@ -66,15 +66,16 @@ namespace PathFindingAlgo
             g.DrawLine(new Pen(Color.White), new Point(0, 100), new Point(this.Size.Width, 100));
 
             //Explanation box
+            Color LineColor = Color.DarkSlateGray;
             Visuals.FillRoundedBox(new Rectangle(-25, 110, 435, 190), WBrush, g, 25);
             g.DrawString("A program to visualize", ExplanationFont, BBrush, new Point(25, 120));
-            g.DrawLine(new Pen(Color.Black), new Point(0, 157), new Point(395, 157));
+            g.DrawLine(new Pen(LineColor), new Point(0, 157), new Point(395, 158));
             g.DrawString("how a path searching", ExplanationFont, BBrush, new Point(25, 160));
-            g.DrawLine(new Pen(Color.Black), new Point(0, 197), new Point(395, 197));
+            g.DrawLine(new Pen(LineColor), new Point(0, 197), new Point(395, 198));
             g.DrawString("algorithm works,", ExplanationFont, BBrush, new Point(25, 200));
-            g.DrawLine(new Pen(Color.Black), new Point(0, 237), new Point(395, 237));
+            g.DrawLine(new Pen(LineColor), new Point(0, 237), new Point(395, 238));
             g.DrawString("and how it's implemented.", ExplanationFont, BBrush, new Point(25, 240));
-            g.DrawLine(new Pen(Color.Black), new Point(0, 277), new Point(395, 277));
+            g.DrawLine(new Pen(LineColor), new Point(0, 277), new Point(395, 278));
 
             //Options and Start
             Visuals.FillRoundedBox(new Rectangle(300, 375, 800, 400), WBrush, g, 25);
@@ -96,10 +97,8 @@ namespace PathFindingAlgo
             g.DrawString("START", TitleFont, WBrush, new Point(430, 665));
 
             //Author
-            Visuals.FillRoundedBox(new Rectangle(400, 850, 300, 200), WBrush, g, 25);
+            Visuals.FillRoundedBox(new Rectangle(400, 850, 300, 100), WBrush, g, 25);
             g.DrawString("Just Hogenelst", ExplanationFont, BBrush, new Point(440, 865));
-
-
         }
     }
 }
